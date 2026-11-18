@@ -1,0 +1,845 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="RL_Performance_Calculator.MainWindow"
+        Title="RL Performance Calculator"
+        Width="1100" Height="800" MinWidth="900" MinHeight="700"
+        WindowStartupLocation="CenterScreen"
+        RequestedThemeVariant="Light"
+        Background="{DynamicResource BgPrimary}"
+        Foreground="{DynamicResource TextPrimary}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+
+                <!-- ===== Thème sombre (Night Match) : .dark-theme du site ===== -->
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="BgPrimary">#0a0d14</SolidColorBrush>
+                    <SolidColorBrush x:Key="BgCard">#C0121826</SolidColorBrush>
+                    <SolidColorBrush x:Key="BgHeaderFooter">#080a0f</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextPrimary">#f0f4fc</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextSecondary">#8ea1c1</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextMuted">#53627c</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextLight">#ffffff</SolidColorBrush>
+                    <SolidColorBrush x:Key="RlBlue">#00d2ff</SolidColorBrush>
+                    <SolidColorBrush x:Key="RlOrange">#ff7700</SolidColorBrush>
+                    <SolidColorBrush x:Key="AccentGold">#ffd000</SolidColorBrush>
+                    <SolidColorBrush x:Key="BorderColor">#14FFFFFF</SolidColorBrush>
+                    <SolidColorBrush x:Key="InputBg">#121826</SolidColorBrush>
+                    <SolidColorBrush x:Key="ResultsBgAlt">#161e30</SolidColorBrush>
+                    <SolidColorBrush x:Key="MsgSuccessBg">#2600d2ff</SolidColorBrush>
+
+                    <LinearGradientBrush x:Key="TitleGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#ffffff" />
+                        <GradientStop Offset="0.3" Color="#ffffff" />
+                        <GradientStop Offset="1" Color="#00d2ff" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="SubmitGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#00d2ff" />
+                        <GradientStop Offset="1" Color="#0088cc" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="FinishGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#ff7700" />
+                        <GradientStop Offset="1" Color="#d85d00" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="ReturnGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#00d2ff" />
+                        <GradientStop Offset="1" Color="#0284c7" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="FirstPlaceBg" StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Offset="0" Color="#26ffd000" />
+                        <GradientStop Offset="1" Color="#161e30" />
+                    </LinearGradientBrush>
+
+                    <BoxShadows x:Key="ShadowCard">0 10 30 -10 #B3000000</BoxShadows>
+                    <BoxShadows x:Key="BlueGlow">0 4 15 0 #5900d2ff</BoxShadows>
+                    <BoxShadows x:Key="OrangeGlow">0 4 15 0 #59ff7700</BoxShadows>
+                    <BoxShadows x:Key="GoldGlow">0 0 15 0 #66ffd000</BoxShadows>
+                    <BoxShadows x:Key="FocusGlow">0 0 10 0 #5900d2ff</BoxShadows>
+                    <BoxShadows x:Key="ToggleGlow">0 0 15 0 #5900d2ff</BoxShadows>
+                </ResourceDictionary>
+
+                <!-- ===== Thème clair (Tournoi Diurne) : .light-theme du site ===== -->
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="BgPrimary">#f0f3fa</SolidColorBrush>
+                    <SolidColorBrush x:Key="BgCard">#ffffff</SolidColorBrush>
+                    <SolidColorBrush x:Key="BgHeaderFooter">#0e1626</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextPrimary">#0b1323</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextSecondary">#475569</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextMuted">#94a3b8</SolidColorBrush>
+                    <SolidColorBrush x:Key="TextLight">#ffffff</SolidColorBrush>
+                    <SolidColorBrush x:Key="RlBlue">#0284c7</SolidColorBrush>
+                    <SolidColorBrush x:Key="RlOrange">#ea580c</SolidColorBrush>
+                    <SolidColorBrush x:Key="AccentGold">#d97706</SolidColorBrush>
+                    <SolidColorBrush x:Key="BorderColor">#cbd5e1</SolidColorBrush>
+                    <SolidColorBrush x:Key="InputBg">#f8fafc</SolidColorBrush>
+                    <SolidColorBrush x:Key="ResultsBgAlt">#f1f5f9</SolidColorBrush>
+                    <SolidColorBrush x:Key="MsgSuccessBg">#260284c7</SolidColorBrush>
+
+                    <LinearGradientBrush x:Key="TitleGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#ffffff" />
+                        <GradientStop Offset="0.3" Color="#ffffff" />
+                        <GradientStop Offset="1" Color="#0284c7" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="SubmitGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#0284c7" />
+                        <GradientStop Offset="1" Color="#0088cc" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="FinishGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#ea580c" />
+                        <GradientStop Offset="1" Color="#d85d00" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="ReturnGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Offset="0" Color="#0284c7" />
+                        <GradientStop Offset="1" Color="#0284c7" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="FirstPlaceBg" StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Offset="0" Color="#26ffd000" />
+                        <GradientStop Offset="1" Color="#f1f5f9" />
+                    </LinearGradientBrush>
+
+                    <BoxShadows x:Key="ShadowCard">0 10 25 -5 #140F172A</BoxShadows>
+                    <BoxShadows x:Key="BlueGlow">0 4 14 0 #400284c7</BoxShadows>
+                    <BoxShadows x:Key="OrangeGlow">0 4 15 0 #40ea580c</BoxShadows>
+                    <BoxShadows x:Key="GoldGlow">0 0 15 0 #4Dd97706</BoxShadows>
+                    <BoxShadows x:Key="FocusGlow">0 0 10 0 #400284c7</BoxShadows>
+                    <BoxShadows x:Key="ToggleGlow">0 0 15 0 #400284c7</BoxShadows>
+                </ResourceDictionary>
+
+            </ResourceDictionary.ThemeDictionaries>
+
+            <!-- Ressources identiques dans les deux thèmes -->
+            <LinearGradientBrush x:Key="StartGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="#ff7700" />
+                <GradientStop Offset="1" Color="#ff5500" />
+            </LinearGradientBrush>
+            <BoxShadows x:Key="BlueGlowHover">0 6 20 0 #7300d2ff</BoxShadows>
+            <BoxShadows x:Key="OrangeGlowHover">0 6 20 0 #80ff7700</BoxShadows>
+            <BoxShadows x:Key="HeaderShadow">0 4 20 0 #66000000</BoxShadows>
+
+            <!-- Polices du site : Teko (titres), Rajdhani (sous-titres), Inter (texte, fournie par Avalonia.Fonts.Inter) -->
+            <FontFamily x:Key="FontDisplay">/Assets/Fonts#Teko</FontFamily>
+            <FontFamily x:Key="FontSub">/Assets/Fonts#Rajdhani</FontFamily>
+            <FontFamily x:Key="FontSubMedium">/Assets/Fonts#Rajdhani Medium</FontFamily>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Styles>
+
+        <!-- ===== Boutons : base commune ===== -->
+        <Style Selector="Button">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="{StaticResource FontSub}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <!-- AJOUTER JOUEUR : dégradé bleu -->
+        <Style Selector="Button.submit">
+            <Setter Property="Background" Value="{DynamicResource SubmitGradient}" />
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="LetterSpacing" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style Selector="Button.submit /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SubmitGradient}" />
+            <Setter Property="BoxShadow" Value="{DynamicResource BlueGlow}" />
+        </Style>
+        <Style Selector="Button.submit:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SubmitGradient}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BoxShadow" Value="{StaticResource BlueGlowHover}" />
+            <Setter Property="RenderTransform" Value="translateY(-2px)" />
+        </Style>
+        <Style Selector="Button.submit:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SubmitGradient}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="RenderTransform" Value="translateY(1px)" />
+        </Style>
+
+        <!-- TERMINER LA SAISIE : dégradé orange -->
+        <Style Selector="Button.finish">
+            <Setter Property="Background" Value="{DynamicResource FinishGradient}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="LetterSpacing" Value="1" />
+            <Setter Property="Padding" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style Selector="Button.finish /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource FinishGradient}" />
+            <Setter Property="BoxShadow" Value="{DynamicResource OrangeGlow}" />
+        </Style>
+        <Style Selector="Button.finish:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource FinishGradient}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BoxShadow" Value="{StaticResource OrangeGlowHover}" />
+            <Setter Property="RenderTransform" Value="translateY(-2px)" />
+        </Style>
+        <Style Selector="Button.finish:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource FinishGradient}" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Button.finish:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource FinishGradient}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Opacity" Value="0.4" />
+            <Setter Property="BoxShadow" Value="none" />
+        </Style>
+
+        <!-- RETOUR À L'ACCUEIL : bouton fantôme -->
+        <Style Selector="Button.ghost">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontFamily" Value="Inter" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style Selector="Button.ghost /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        </Style>
+        <Style Selector="Button.ghost:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ResultsBgAlt}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        </Style>
+
+        <!-- Boutons en parallélogramme (clip-path du site) : DÉMARRER et RETOUR À L'ACCUEIL -->
+        <Style Selector="Button.slant">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid Background="Transparent" RowDefinitions="Auto" ColumnDefinitions="Auto">
+                        <Path Name="Shape" Data="M 0.08,0 L 1,0 L 0.92,1 L 0,1 Z" Stretch="Fill" Fill="{TemplateBinding Background}" />
+                        <ContentPresenter Name="SlantContent"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.25" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Button.slant:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.05)" />
+        </Style>
+        <Style Selector="Button.slant:pressed">
+            <Setter Property="RenderTransform" Value="translateY(1px)" />
+        </Style>
+        <Style Selector="Button.start">
+            <Setter Property="Background" Value="{StaticResource StartGradient}" />
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="LetterSpacing" Value="2" />
+            <Setter Property="Padding" Value="45,14" />
+        </Style>
+        <Style Selector="Button.return">
+            <Setter Property="Background" Value="{DynamicResource ReturnGradient}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="LetterSpacing" Value="1.5" />
+            <Setter Property="Padding" Value="35,12" />
+        </Style>
+        <Style Selector="Button.return /template/ Path#Shape">
+            <Setter Property="Data" Value="M 0.06,0 L 1,0 L 0.94,1 L 0,1 Z" />
+        </Style>
+
+        <!-- Bouton de bascule clair / sombre -->
+        <Style Selector="Button.toggle">
+            <Setter Property="Width" Value="44" />
+            <Setter Property="Height" Value="44" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Foreground" Value="{DynamicResource RlBlue}" />
+            <Setter Property="Background" Value="{DynamicResource BgCard}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="Button.toggle /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource BgCard}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        </Style>
+        <Style Selector="Button.toggle:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource BgHeaderFooter}" />
+        </Style>
+        <Style Selector="Button.toggle:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource TextLight}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource RlBlue}" />
+            <Setter Property="BoxShadow" Value="{DynamicResource ToggleGlow}" />
+            <Setter Property="RenderTransform" Value="translateY(-2px)" />
+        </Style>
+
+        <!-- ===== Champs de saisie ===== -->
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="{DynamicResource InputBg}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+            <Setter Property="CaretBrush" Value="{DynamicResource RlBlue}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14,12" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource TextMuted}" />
+        </Style>
+        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource InputBg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        </Style>
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource InputBg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource RlBlue}" />
+            <Setter Property="BoxShadow" Value="{DynamicResource FocusGlow}" />
+        </Style>
+        <Style Selector="TextBox.playerName">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="4,1,1,1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource RlBlue}" />
+        </Style>
+        <Style Selector="TextBox.playerName:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource RlBlue}" />
+        </Style>
+
+        <!-- ===== Cartes, titres et textes ===== -->
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{DynamicResource BgCard}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="28" />
+            <Setter Property="BoxShadow" Value="{DynamicResource ShadowCard}" />
+        </Style>
+        <Style Selector="Border.titleRule">
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Padding" Value="0,0,0,10" />
+            <Setter Property="Margin" Value="0,0,0,20" />
+        </Style>
+        <Style Selector="TextBlock.sectionTitle">
+            <Setter Property="FontFamily" Value="{StaticResource FontSub}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="21" />
+            <Setter Property="LetterSpacing" Value="1.5" />
+            <Setter Property="Foreground" Value="{DynamicResource RlBlue}" />
+        </Style>
+        <Style Selector="TextBlock.resultsTitle">
+            <Setter Property="FontFamily" Value="{StaticResource FontSub}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="LetterSpacing" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource RlBlue}" />
+        </Style>
+        <Style Selector="TextBlock.p">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="LineHeight" Value="27" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+        </Style>
+
+        <!-- Messages (erreur / succès) -->
+        <Style Selector="Border.msg">
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="BorderThickness" Value="4,0,0,0" />
+        </Style>
+        <Style Selector="Border.msg.error">
+            <Setter Property="Background" Value="#26ef4444" />
+            <Setter Property="BorderBrush" Value="#ef4444" />
+        </Style>
+        <Style Selector="Border.msg.error TextBlock">
+            <Setter Property="Foreground" Value="#ef4444" />
+        </Style>
+        <Style Selector="Border.msg.success">
+            <Setter Property="Background" Value="{DynamicResource MsgSuccessBg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource RlBlue}" />
+        </Style>
+        <Style Selector="Border.msg.success TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource RlBlue}" />
+        </Style>
+
+        <!-- Classement : ligne standard et première place -->
+        <Style Selector="Border.rankItem">
+            <Setter Property="Background" Value="{DynamicResource ResultsBgAlt}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14,10" />
+        </Style>
+        <Style Selector="Border.rankItem.first">
+            <Setter Property="Background" Value="{DynamicResource FirstPlaceBg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}" />
+            <Setter Property="BoxShadow" Value="{DynamicResource GoldGlow}" />
+        </Style>
+        <Style Selector="Border.rankItem TextBlock.rankText">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        </Style>
+        <Style Selector="Border.rankItem.first TextBlock.rankText">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}" />
+        </Style>
+
+        <!-- Masquer l'en-tête du TabControl : la navigation passe par les boutons -->
+        <Style Selector="TabControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style Selector="TabItem">
+            <Setter Property="Height" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+
+        <!-- Meilleurs joueurs et barème -->
+        <Style Selector="Border.best">
+            <Setter Property="Background" Value="{DynamicResource ResultsBgAlt}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource RlOrange}" />
+            <Setter Property="BorderThickness" Value="3,0,0,0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14,12" />
+        </Style>
+        <Style Selector="Border.best TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        </Style>
+        <Style Selector="Border.scoreRow">
+            <Setter Property="Background" Value="{DynamicResource ResultsBgAlt}" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="14,10" />
+        </Style>
+        <Style Selector="TextBlock.scoreVal">
+            <Setter Property="FontFamily" Value="{StaticResource FontSub}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource RlOrange}" />
+        </Style>
+    </Window.Styles>
+
+    <Grid Name="RootGrid" RowDefinitions="Auto,*,Auto" Opacity="0">
+        <Grid.Transitions>
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.5" Easing="QuadraticEaseOut" />
+            </Transitions>
+        </Grid.Transitions>
+
+        <!-- Fond : couleur + les deux halos radiaux du site (bleu en haut, orange en bas à droite) -->
+        <Border Grid.RowSpan="3" Background="{DynamicResource BgPrimary}" />
+        <Border Grid.RowSpan="3" IsHitTestVisible="False">
+            <Border.Background>
+                <RadialGradientBrush Center="50%,0%" GradientOrigin="50%,0%" RadiusX="75%" RadiusY="60%">
+                    <GradientStop Offset="0" Color="#1400d2ff" />
+                    <GradientStop Offset="1" Color="#0000d2ff" />
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+        <Border Grid.RowSpan="3" IsHitTestVisible="False">
+            <Border.Background>
+                <RadialGradientBrush Center="80%,100%" GradientOrigin="80%,100%" RadiusX="60%" RadiusY="50%">
+                    <GradientStop Offset="0" Color="#0Fff7700" />
+                    <GradientStop Offset="1" Color="#00ff7700" />
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- ===== En-tête ===== -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource BgHeaderFooter}"
+                BorderBrush="{DynamicResource BorderColor}"
+                BorderThickness="0,0,0,2"
+                BoxShadow="{StaticResource HeaderShadow}"
+                Padding="24,18"
+                ZIndex="1">
+            <Grid MaxWidth="1200" ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="RL PERFORMANCE CALCULATOR"
+                               FontFamily="{StaticResource FontDisplay}"
+                               FontWeight="Bold" FontSize="45" LineHeight="46"
+                               LetterSpacing="2"
+                               Foreground="{DynamicResource TitleGradient}" />
+                    <TextBlock Text="CALCULEZ VOS PERFORMANCES"
+                               FontFamily="{StaticResource FontSub}"
+                               FontWeight="Bold" FontSize="16" LetterSpacing="1.5"
+                               Foreground="{DynamicResource TextSecondary}"
+                               Margin="0,4,0,0" />
+                </StackPanel>
+
+                <Button Grid.Column="1" Classes="toggle" Click="ToggleTheme_Click"
+                        VerticalAlignment="Center"
+                        ToolTip.Tip="Changer de thème">
+                    <Panel Width="20" Height="20">
+                        <!-- Lune (affichée en thème clair) -->
+                        <Path Name="MoonIcon" Data="M 12,3 A 6,6 0 0 0 21,12 A 9,9 0 1 1 12,3 Z"
+                              Stretch="Uniform" StrokeThickness="2" StrokeLineCap="Round" StrokeJoin="Round"
+                              Stroke="{Binding $parent[Button].Foreground}" />
+                        <!-- Soleil (affiché en thème sombre) -->
+                        <Path Name="SunIcon" IsVisible="False"
+                              Data="M 8,12 A 4,4 0 1 0 16,12 A 4,4 0 1 0 8,12 Z M 12,2 L 12,4 M 12,20 L 12,22 M 4.93,4.93 L 6.34,6.34 M 17.66,17.66 L 19.07,19.07 M 2,12 L 4,12 M 20,12 L 22,12 M 6.34,17.66 L 4.93,19.07 M 19.07,4.93 L 17.66,6.34"
+                              Stretch="Uniform" StrokeThickness="2" StrokeLineCap="Round" StrokeJoin="Round"
+                              Stroke="{Binding $parent[Button].Foreground}" />
+                    </Panel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- ===== Contenu principal ===== -->
+        <TabControl Name="MainTabControl" Grid.Row="1">
+
+            <!-- ===== Accueil ===== -->
+            <TabItem Name="WelcomeTab">
+                <StackPanel Name="WelcomePanel" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            MaxWidth="760" Margin="20">
+                    <StackPanel.RenderTransform>
+                        <TranslateTransform />
+                    </StackPanel.RenderTransform>
+
+                    <Border Classes="card" Padding="35" CornerRadius="16">
+                        <StackPanel>
+                            <TextBlock Text="BIENVENUE SUR RL PERFORMANCE CALCULATOR !"
+                                       FontFamily="{StaticResource FontDisplay}"
+                                       FontWeight="Bold" FontSize="38" LineHeight="42"
+                                       LetterSpacing="1.5"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       Foreground="{DynamicResource TextPrimary}"
+                                       Margin="0,0,0,16" />
+                            <TextBlock Classes="p" Text="Ce logiciel vous permet d'analyser les performances des joueurs de Rocket League en détail." />
+                            <TextBlock Classes="p" Text="Vous allez pouvoir saisir les statistiques des joueurs, incluant les touches de balle, les tirs cadrés, les arrêts et sauvetages miraculeux, les passes décisives et les buts marqués." />
+                            <TextBlock Classes="p" Text="RL Performance Calculator calculera automatiquement les scores et déterminera le meilleur joueur global (l'homme du match), le meilleur buteur, le meilleur passeur et le meilleur gardien." />
+                            <TextBlock Classes="p" Text="Cliquez sur le bouton ci-dessous pour démarrer" Margin="0" />
+                        </StackPanel>
+                    </Border>
+
+                    <Button Classes="slant start" Content="DÉMARRER"
+                            Click="CommencerSaisie_Click"
+                            HorizontalAlignment="Center"
+                            Margin="0,25,0,25" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- ===== Saisie des joueurs ===== -->
+            <TabItem Name="InputTab" IsEnabled="False">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid MaxWidth="1100" Margin="30,40" ColumnDefinitions="*,*" VerticalAlignment="Top">
+
+                        <!-- Carte : Nouveau joueur -->
+                        <Border Classes="card" Name="FormulaireGroup" Grid.Column="0"
+                                Margin="0,0,15,0" VerticalAlignment="Top">
+                            <Border.RenderTransform>
+                                <TranslateTransform />
+                            </Border.RenderTransform>
+                            <StackPanel>
+                                <Border Classes="titleRule">
+                                    <TextBlock Classes="sectionTitle" Text="NOUVEAU JOUEUR" />
+                                </Border>
+
+                                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                                    <TextBox Name="NomJoueurTextBox" Classes="playerName"
+                                             Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,16"
+                                             Watermark="Nom du joueur" />
+
+                                    <TextBox Name="TouchesTextBox" Grid.Row="1" Grid.Column="0"
+                                             Margin="0,0,8,16" Watermark="Ballons touchés" />
+                                    <TextBox Name="CadresTextBox" Grid.Row="1" Grid.Column="1"
+                                             Margin="8,0,0,16" Watermark="Tirs cadrés" />
+
+                                    <TextBox Name="ArretsTextBox" Grid.Row="2" Grid.Column="0"
+                                             Margin="0,0,8,16" Watermark="Arrêts" />
+                                    <TextBox Name="MiraclesTextBox" Grid.Row="2" Grid.Column="1"
+                                             Margin="8,0,0,16" Watermark="Sauvetages miraculeux" />
+
+                                    <TextBox Name="PassesTextBox" Grid.Row="3" Grid.Column="0"
+                                             Margin="0,0,8,16" Watermark="Passes décisives" />
+                                    <TextBox Name="ButsTextBox" Grid.Row="3" Grid.Column="1"
+                                             Margin="8,0,0,16" Watermark="Buts" />
+
+                                    <Button Classes="submit" Content="AJOUTER JOUEUR"
+                                            Grid.Row="4" Grid.ColumnSpan="2" Margin="0,8,0,0"
+                                            Click="AjouterJoueur_Click" />
+
+                                    <Border Name="MessageBorder" Classes="msg error" IsVisible="False"
+                                            Grid.Row="5" Grid.ColumnSpan="2" Margin="0,16,0,0">
+                                        <TextBlock Name="MessageTextBlock" FontSize="14" TextWrapping="Wrap" />
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Carte : compteur, feuille de match et actions -->
+                        <Border Classes="card" Name="ListeGroup" Grid.Column="1"
+                                Margin="15,0,0,0" VerticalAlignment="Top">
+                            <Border.RenderTransform>
+                                <TranslateTransform />
+                            </Border.RenderTransform>
+                            <StackPanel>
+                                <Border Background="{DynamicResource ResultsBgAlt}"
+                                        BorderBrush="{DynamicResource BorderColor}" BorderThickness="1"
+                                        CornerRadius="10" Padding="16" Margin="0,0,0,20">
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Text="JOUEURS INSCRITS"
+                                                   FontFamily="{StaticResource FontSubMedium}" FontSize="15"
+                                                   Foreground="{DynamicResource TextSecondary}"
+                                                   HorizontalAlignment="Center" />
+                                        <TextBlock Name="CompteurJoueursText" Text="0"
+                                                   FontFamily="{StaticResource FontDisplay}"
+                                                   FontWeight="Bold" FontSize="48" LineHeight="48"
+                                                   Foreground="{DynamicResource RlOrange}"
+                                                   HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+
+                                <StackPanel Name="RosterBox" IsVisible="False" Margin="0,0,0,20">
+                                    <TextBlock Text="FEUILLE DE MATCH"
+                                               FontFamily="{StaticResource FontSub}" FontWeight="Bold" FontSize="16"
+                                               Foreground="{DynamicResource TextSecondary}"
+                                               Margin="0,0,0,10" />
+                                    <ItemsControl Name="JoueursItems">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Spacing="8" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{DynamicResource InputBg}"
+                                                        BorderBrush="{DynamicResource RlBlue}" BorderThickness="3,0,0,0"
+                                                        CornerRadius="6" Padding="14,10">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <TextBlock Text="{Binding Nom}" FontWeight="SemiBold"
+                                                                   VerticalAlignment="Center" />
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding ScoreTotal, StringFormat={}{0} pts}"
+                                                                   FontFamily="{StaticResource FontSub}" FontWeight="Bold"
+                                                                   Foreground="{DynamicResource RlBlue}"
+                                                                   VerticalAlignment="Center" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+
+                                <StackPanel Spacing="12">
+                                    <Button Classes="finish" Name="VoirResultatsButton"
+                                            Content="TERMINER LA SAISIE"
+                                            Click="VoirResultats_Click" IsEnabled="False" />
+                                    <Button Classes="ghost" Content="Retour à l'accueil"
+                                            Click="RevenirAccueil_Click" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===== Résultats ===== -->
+            <TabItem Name="ResultsTab" IsEnabled="False">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Name="ResultatsPanel" MaxWidth="1200" Margin="20,30" VerticalAlignment="Top">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform />
+                        </StackPanel.RenderTransform>
+
+                        <TextBlock Text="RÉSULTATS DE LA PARTIE"
+                                   FontFamily="{StaticResource FontDisplay}"
+                                   FontWeight="Bold" FontSize="48" LineHeight="52" LetterSpacing="2"
+                                   Foreground="{DynamicResource TextPrimary}"
+                                   HorizontalAlignment="Center" Margin="0,0,0,30" />
+
+                        <Grid ColumnDefinitions="*,*,*" Margin="0,0,0,35">
+
+                            <!-- Meilleurs joueurs -->
+                            <Border Classes="card" Grid.Column="0" Padding="24" Margin="0,0,12,0" VerticalAlignment="Top">
+                                <StackPanel>
+                                    <Border Classes="titleRule">
+                                        <TextBlock Classes="resultsTitle" Text="MEILLEURS JOUEURS" />
+                                    </Border>
+                                    <StackPanel Spacing="10">
+                                        <Border Classes="best">
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <TextBlock Text="Meilleur joueur :" FontSize="15" VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextSecondary}" />
+                                                <TextBlock Name="MeilleurJoueurText" Grid.Column="1" HorizontalAlignment="Right"
+                                                           TextWrapping="Wrap" TextAlignment="Right" Margin="10,0,0,0"
+                                                           FontFamily="{StaticResource FontSub}" FontWeight="Bold" FontSize="17.6" />
+                                            </Grid>
+                                        </Border>
+                                        <Border Classes="best">
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <TextBlock Text="Meilleur buteur :" FontSize="15" VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextSecondary}" />
+                                                <TextBlock Name="MeilleurButeurText" Grid.Column="1" HorizontalAlignment="Right"
+                                                           TextWrapping="Wrap" TextAlignment="Right" Margin="10,0,0,0"
+                                                           FontFamily="{StaticResource FontSub}" FontWeight="Bold" FontSize="17.6" />
+                                            </Grid>
+                                        </Border>
+                                        <Border Classes="best">
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <TextBlock Text="Meilleur passeur :" FontSize="15" VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextSecondary}" />
+                                                <TextBlock Name="MeilleurPasseurText" Grid.Column="1" HorizontalAlignment="Right"
+                                                           TextWrapping="Wrap" TextAlignment="Right" Margin="10,0,0,0"
+                                                           FontFamily="{StaticResource FontSub}" FontWeight="Bold" FontSize="17.6" />
+                                            </Grid>
+                                        </Border>
+                                        <Border Classes="best">
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <TextBlock Text="Meilleur gardien :" FontSize="15" VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextSecondary}" />
+                                                <TextBlock Name="MeilleurGardienText" Grid.Column="1" HorizontalAlignment="Right"
+                                                           TextWrapping="Wrap" TextAlignment="Right" Margin="10,0,0,0"
+                                                           FontFamily="{StaticResource FontSub}" FontWeight="Bold" FontSize="17.6" />
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Classement général -->
+                            <Border Classes="card" Grid.Column="1" Padding="24" Margin="12,0" VerticalAlignment="Top">
+                                <StackPanel>
+                                    <Border Classes="titleRule">
+                                        <TextBlock Classes="resultsTitle" Text="CLASSEMENT GÉNÉRAL" />
+                                    </Border>
+                                    <ItemsControl Name="ClassementItems">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Spacing="8" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Classes="rankItem" Classes.first="{Binding EstPremier}">
+                                                    <Grid ColumnDefinitions="35,*,Auto,Auto">
+                                                        <TextBlock Classes="rankText"
+                                                                   Text="{Binding Rang, StringFormat='#{0}'}"
+                                                                   FontFamily="{StaticResource FontDisplay}"
+                                                                   FontWeight="Bold" FontSize="22" LineHeight="24"
+                                                                   VerticalAlignment="Center" />
+                                                        <TextBlock Grid.Column="1" Text="{Binding Nom}"
+                                                                   FontWeight="SemiBold" VerticalAlignment="Center"
+                                                                   Margin="12,0" TextTrimming="CharacterEllipsis" />
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6"
+                                                                    VerticalAlignment="Center" Margin="0,0,12,0">
+                                                            <Border Background="{DynamicResource InputBg}"
+                                                                    BorderBrush="{DynamicResource BorderColor}" BorderThickness="1"
+                                                                    CornerRadius="4" Padding="6,3">
+                                                                <TextBlock Text="{Binding NbBut, StringFormat={}{0}B}" FontSize="12.8"
+                                                                           FontWeight="SemiBold" Foreground="{DynamicResource TextSecondary}" />
+                                                            </Border>
+                                                            <Border Background="{DynamicResource InputBg}"
+                                                                    BorderBrush="{DynamicResource BorderColor}" BorderThickness="1"
+                                                                    CornerRadius="4" Padding="6,3">
+                                                                <TextBlock Text="{Binding NbDecisive, StringFormat={}{0}P}" FontSize="12.8"
+                                                                           FontWeight="SemiBold" Foreground="{DynamicResource TextSecondary}" />
+                                                            </Border>
+                                                            <Border Background="{DynamicResource InputBg}"
+                                                                    BorderBrush="{DynamicResource BorderColor}" BorderThickness="1"
+                                                                    CornerRadius="4" Padding="6,3">
+                                                                <TextBlock Text="{Binding NbArret, StringFormat={}{0}A}" FontSize="12.8"
+                                                                           FontWeight="SemiBold" Foreground="{DynamicResource TextSecondary}" />
+                                                            </Border>
+                                                        </StackPanel>
+                                                        <TextBlock Grid.Column="3"
+                                                                   Text="{Binding ScoreTotal, StringFormat={}{0} pts}"
+                                                                   FontFamily="{StaticResource FontSub}" FontWeight="Bold" FontSize="19"
+                                                                   Foreground="{DynamicResource RlBlue}" VerticalAlignment="Center" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Barème des points -->
+                            <Border Classes="card" Grid.Column="2" Padding="24" Margin="12,0,0,0" VerticalAlignment="Top">
+                                <StackPanel>
+                                    <Border Classes="titleRule">
+                                        <TextBlock Classes="resultsTitle" Text="BARÈME DES POINTS" />
+                                    </Border>
+                                    <StackPanel Spacing="8">
+                                        <Border Classes="scoreRow"><Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="Touche de balle" Foreground="{DynamicResource TextSecondary}" />
+                                            <TextBlock Grid.Column="1" Text="2 points" Classes="scoreVal" />
+                                        </Grid></Border>
+                                        <Border Classes="scoreRow"><Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="Tir cadré" Foreground="{DynamicResource TextSecondary}" />
+                                            <TextBlock Grid.Column="1" Text="10 points" Classes="scoreVal" />
+                                        </Grid></Border>
+                                        <Border Classes="scoreRow"><Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="Arrêt" Foreground="{DynamicResource TextSecondary}" />
+                                            <TextBlock Grid.Column="1" Text="50 points" Classes="scoreVal" />
+                                        </Grid></Border>
+                                        <Border Classes="scoreRow"><Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="Sauvetage miraculeux" Foreground="{DynamicResource TextSecondary}" />
+                                            <TextBlock Grid.Column="1" Text="Arrêt+25 points" Classes="scoreVal" />
+                                        </Grid></Border>
+                                        <Border Classes="scoreRow"><Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="Passe décisive" Foreground="{DynamicResource TextSecondary}" />
+                                            <TextBlock Grid.Column="1" Text="50 points" Classes="scoreVal" />
+                                        </Grid></Border>
+                                        <Border Classes="scoreRow"><Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="But" Foreground="{DynamicResource TextSecondary}" />
+                                            <TextBlock Grid.Column="1" Text="100 points" Classes="scoreVal" />
+                                        </Grid></Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Button Classes="slant return" Content="RETOUR À L'ACCUEIL"
+                                Click="RevenirAccueil_Click"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,25" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- ===== Pied de page ===== -->
+        <Border Grid.Row="2"
+                Background="{DynamicResource BgHeaderFooter}"
+                BorderBrush="{DynamicResource BorderColor}"
+                BorderThickness="0,1,0,0"
+                Padding="20">
+            <TextBlock Text="© 2026 RL Performance Calculator"
+                       Foreground="#D9FFFFFF" FontSize="14.4" LetterSpacing="0.5"
+                       HorizontalAlignment="Center" />
+        </Border>
+
+        <!-- Photo de l'ancien thème, affichée un instant lors du changement de thème pour un fondu enchaîné -->
+        <Image Name="ThemeSnapshot" Grid.RowSpan="3" Stretch="Fill"
+               IsVisible="False" IsHitTestVisible="False" ZIndex="100">
+            <Image.Transitions>
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.45" Easing="QuadraticEaseInOut" />
+                </Transitions>
+            </Image.Transitions>
+        </Image>
+    </Grid>
+</Window>
